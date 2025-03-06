@@ -21,7 +21,7 @@ class Opportunity(models.Model):
     application_links = models.ManyToManyField(
         ApplicationLink, related_name="opportunities", blank=True
     )
-    og_image_url = models.URLField(blank=True)
+    og_image_url = models.URLField(blank=True, null=True)
 
     def __str__(self):
         return f"{self.title} - {self.category}"
