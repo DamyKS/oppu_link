@@ -20,6 +20,7 @@ class OpportunitySerializer(serializers.ModelSerializer):
             "date_posted",
             "link",
             "description",
+            "og_image_url",
             "application_links",
         ]
 
@@ -38,6 +39,7 @@ class OpportunityCreateUpdateSerializer(serializers.ModelSerializer):
             "date_posted",
             "link",
             "description",
+            "og_image_url",
             "application_link_urls",
         ]
 
