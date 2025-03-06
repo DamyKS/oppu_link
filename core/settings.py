@@ -82,20 +82,20 @@ WSGI_APPLICATION = "core.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 # local db
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
+    }
+}
 
 # prod db
-DATABASE_URL = config("DATABASE_URL")
-default_db_config = dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+# DATABASE_URL = config("DATABASE_URL")
+# default_db_config = dj_database_url.parse(DATABASE_URL, conn_max_age=600)
 
-DATABASES = {
-    "default": default_db_config,
-}
+# DATABASES = {
+#     "default": default_db_config,
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

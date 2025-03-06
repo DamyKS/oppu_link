@@ -5,7 +5,7 @@ from .models import ApplicationLink, Opportunity
 class ApplicationLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = ApplicationLink
-        fields = ["id", "url"]
+        fields = ["url"]
 
 
 class OpportunitySerializer(serializers.ModelSerializer):

@@ -2,15 +2,23 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
+from rest_framework.pagination import PageNumberPagination
 
 from .models import Opportunity
 from .serializers import OpportunitySerializer, OpportunityCreateUpdateSerializer
 
 
+# Custom paginator that returns 10 items per page
+class OpportunityPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = "page_size"  # optional: allow client to set page size
+    max_page_size = 160  # optional: maximum page size allowed
+
+
 class OpportunityView(APIView):
     def get(self, request):
         """
-        Retrieve all opportunities or filter based on query parameters
+        Retrieve all opportunities or filter based on query parameters with pagination.
         """
         # Get query parameters
         category = request.query_params.get("category")
@@ -22,10 +30,15 @@ class OpportunityView(APIView):
         if category:
             opportunities = opportunities.filter(category=category)
 
-        # Serialize the queryset
-        serializer = OpportunitySerializer(opportunities, many=True)
+        # Instantiate paginator and paginate the queryset
+        paginator = OpportunityPagination()
+        paginated_opportunities = paginator.paginate_queryset(opportunities, request)
 
-        return Response(serializer.data)
+        # Serialize the paginated queryset
+        serializer = OpportunitySerializer(paginated_opportunities, many=True)
+
+        # Return paginated response
+        return paginator.get_paginated_response(serializer.data)
 
     def post(self, request):
         """
