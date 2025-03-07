@@ -85,3 +85,25 @@ class VisitorCountView(APIView):
         visitor_count.save()
 
         return Response({"count": visitor_count.count})
+
+
+class SearchView(APIView):
+    """
+    Search for opportunities using the search term provided in the request data.
+    """
+
+    def get(self, request):
+        # You might want to use request.query_params.get("search_term") instead of request.data.get("search_term")
+        # for GET requests. Adjust accordingly if needed.
+        search_term = request.data.get("search_term")
+        opportunities = Opportunity.objects.filter(title__icontains=search_term)
+
+        # Instantiate the paginator and paginate the queryset
+        paginator = OpportunityPagination()
+        paginated_opportunities = paginator.paginate_queryset(opportunities, request)
+
+        # Serialize the paginated queryset
+        serializer = OpportunitySerializer(paginated_opportunities, many=True)
+
+        # Return the paginated response
+        return paginator.get_paginated_response(serializer.data)
