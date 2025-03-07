@@ -90,7 +90,7 @@ WSGI_APPLICATION = "core.wsgi.application"
 # }
 
 # prod db
-# DATABASE_URL = config("DATABASE_URL")
+DATABASE_URL = config("DATABASE_URL")
 default_db_config = dj_database_url.parse(DATABASE_URL, conn_max_age=600)
 
 DATABASES = {
