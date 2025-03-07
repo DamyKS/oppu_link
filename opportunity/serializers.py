@@ -21,6 +21,8 @@ class OpportunitySerializer(serializers.ModelSerializer):
             "link",
             "description",
             "og_image_url",
+            "og_description",
+            "slug",
             "application_links",
         ]
 
@@ -40,6 +42,8 @@ class OpportunityCreateUpdateSerializer(serializers.ModelSerializer):
             "link",
             "description",
             "og_image_url",
+            "og_description",
+            "slug",
             "application_link_urls",
         ]
 

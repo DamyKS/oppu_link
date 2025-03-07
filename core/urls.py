@@ -16,6 +16,7 @@ from drf_yasg import openapi
 
 from django.conf import settings
 from django.conf.urls.static import static
+from opportunity.views import VisitorCountView
 
 # from bank.views import DashboardAPIView
 # from bank.views import AcctDetailView
@@ -52,6 +53,8 @@ urlpatterns = [
     ),
     # opportunity urls
     path("api/v1/opportunities/", include("opportunity.urls")),
+    # visitor count
+    path("api/v1/visitor_count", VisitorCountView.as_view(), name="visitor-count"),
     # # Swagger UI
     path(
         "swagger/",

@@ -4,7 +4,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from rest_framework.pagination import PageNumberPagination
 
-from .models import Opportunity
+from .models import Opportunity, VisitorCount
 from .serializers import OpportunitySerializer, OpportunityCreateUpdateSerializer
 
 
@@ -59,3 +59,29 @@ class OpportunityView(APIView):
 
         # If validation fails, return errors
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class OpportunityDetailView(APIView):
+    """
+    Retrieve a single opportunity by its slug"""
+
+    def get(self, request, title_slug):
+        # get opportunity with slug = title_slug
+        opportunity = get_object_or_404(Opportunity, slug=title_slug)
+        serializer = OpportunitySerializer(opportunity)
+        return Response(serializer.data)
+
+
+class VisitorCountView(APIView):
+    def post(self, request):
+        """
+        Increment the visitor count
+        """
+        # Get the visitor count object
+        visitor_count = get_object_or_404(VisitorCount, pk=1)
+
+        # Increment the count
+        visitor_count.count += 1
+        visitor_count.save()
+
+        return Response({"count": visitor_count.count})

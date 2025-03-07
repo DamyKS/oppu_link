@@ -21,7 +21,9 @@ class Opportunity(models.Model):
     application_links = models.ManyToManyField(
         ApplicationLink, related_name="opportunities", blank=True
     )
-    og_image_url = models.URLField(blank=True, null=True)
+    og_image_url = models.CharField(max_length=200, blank=True, null=True)
+    og_description = models.TextField(max_length=500, blank=True, null=True)
+    slug = models.CharField(max_length=200, blank=True, null=True)
 
     def __str__(self):
         return f"{self.title} - {self.category}"
@@ -29,6 +31,13 @@ class Opportunity(models.Model):
     class Meta:
         verbose_name_plural = "Opportunities"
         ordering = ["-date_posted"]
+
+
+class VisitorCount(models.Model):
+    count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"Visitor Count: {self.count}"
 
 
 # http://127.0.0.1:8000/api/v1/opportunities/?category=Internship
