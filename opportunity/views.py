@@ -92,8 +92,7 @@ class SearchView(APIView):
     Search for opportunities using the search term provided in the request data.
     """
 
-    def get(self, request):
-        # You might want to use request.query_params.get("search_term") instead of request.data.get("search_term")
+    def post(self, request):
         # for GET requests. Adjust accordingly if needed.
         search_term = request.data.get("search_term")
         opportunities = Opportunity.objects.filter(title__icontains=search_term)
