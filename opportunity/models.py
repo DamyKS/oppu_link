@@ -40,5 +40,27 @@ class VisitorCount(models.Model):
         return f"Visitor Count: {self.count}"
 
 
+class HackathonOpportunity(models.Model):
+    application_link = models.URLField(max_length=500)
+    img = models.URLField(max_length=500, blank=True, null=True)
+    title = models.CharField(max_length=255)
+    slug = models.CharField(max_length=200, blank=True, null=True)
+    time_left = models.CharField(max_length=50)
+    location = models.CharField(max_length=100)
+    prize = models.CharField(max_length=100)
+    participants = models.CharField(max_length=50)
+    host = models.CharField(max_length=100)
+    date_range = models.CharField(max_length=100)
+    themes = models.JSONField()  # Storing the list of themes as JSON
+    description = models.TextField()  # Long HTML content
+    date_posted = models.DateField(default=timezone.now)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ["-date_posted"]
+
+
 # http://127.0.0.1:8000/api/v1/opportunities/?category=Internship
 # postgresql://oppu_db_user:cJwRvXsiNcYrfyNknwwlOqIlwOKADoBN@dpg-cv4crmnnoe9s73c9nrdg-a/oppu_db

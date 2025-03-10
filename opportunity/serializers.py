@@ -1,5 +1,25 @@
 from rest_framework import serializers
-from .models import ApplicationLink, Opportunity
+from .models import ApplicationLink, Opportunity, HackathonOpportunity
+
+
+class HackathonOpportunitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HackathonOpportunity
+        fields = [
+            "id",
+            "application_link",
+            "img",
+            "title",
+            "slug",
+            "time_left",
+            "location",
+            "prize",
+            "participants",
+            "host",
+            "date_range",
+            "themes",
+            "description",
+        ]
 
 
 class ApplicationLinkSerializer(serializers.ModelSerializer):
