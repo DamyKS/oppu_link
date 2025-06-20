@@ -63,4 +63,3 @@ class HackathonOpportunity(models.Model):
 
 
 # http://127.0.0.1:8000/api/v1/opportunities/?category=Internship
-# postgresql://oppu_db_user:cJwRvXsiNcYrfyNknwwlOqIlwOKADoBN@dpg-cv4crmnnoe9s73c9nrdg-a/oppu_db

@@ -74,7 +74,11 @@ class OpportunityDetailView(APIView):
 
     def get(self, request, title_slug):
         # get opportunity with slug = title_slug
-        opportunity = get_object_or_404(Opportunity, slug=title_slug)
+        try:
+            opportunity = get_object_or_404(Opportunity, slug=title_slug)
+        except:
+            # if multiple opportunities with the same slug exist, return the first one
+            opportunity = Opportunity.objects.filter(slug=title_slug).first()
         serializer = OpportunitySerializer(opportunity)
         return Response(serializer.data)
 
