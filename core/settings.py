@@ -244,3 +244,13 @@ JAZZMIN_SETTINGS = {
 # celery docker redis works on local
 CELERY_BROKER_URL = "redis://localhost:6379/0"
 CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "django_cache",  # table name
+        "TIMEOUT": 6000,  # 100 minutes default
+        "OPTIONS": {"MAX_ENTRIES": 10000},
+    }
+}

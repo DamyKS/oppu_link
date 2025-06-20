@@ -14,6 +14,9 @@ from .serializers import (
     HackathonOpportunitySerializer,
 )
 
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+
 
 # Custom paginator that returns 10 items per page
 class OpportunityPagination(PageNumberPagination):
@@ -22,7 +25,9 @@ class OpportunityPagination(PageNumberPagination):
     max_page_size = 160  # optional: maximum page size allowed
 
 
+@method_decorator(cache_page(60 * 10), name="get")
 class OpportunityView(APIView):
+
     def get(self, request):
         """
         Retrieve all opportunities or filter based on query parameters with pagination.
@@ -68,6 +73,7 @@ class OpportunityView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@method_decorator(cache_page(60 * 10), name="get")
 class OpportunityDetailView(APIView):
     """
     Retrieve a single opportunity by its slug"""
@@ -90,6 +96,7 @@ class HackathonOpportunityPagination(PageNumberPagination):
     max_page_size = 160  # maximum page size allowed
 
 
+@method_decorator(cache_page(60 * 10), name="get")
 class HackathonOpportunityView(APIView):
     def get(self, request):
         """
@@ -115,6 +122,7 @@ class HackathonOpportunityView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+@method_decorator(cache_page(60 * 10), name="get")
 class HackathonOpportunityDetailView(APIView):
     """
     Retrieve a single hackathon opportunity by its slug.
