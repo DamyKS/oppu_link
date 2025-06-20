@@ -16,6 +16,7 @@ from .serializers import (
 
 from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from django.db.models import Count
 
 
 # Custom paginator that returns 10 items per page
@@ -169,3 +170,30 @@ class SearchView(APIView):
 
         # Return the paginated response
         return paginator.get_paginated_response(serializer.data)
+
+
+class DeleteDuplicateOpportunitiesView(APIView):
+    """
+    Deletes duplicate opportunities based on 'slug' and returns the number of duplicates removed.
+    """
+
+    def delete(self, request):
+        duplicate_slugs = (
+            Opportunity.objects.values("slug")
+            .annotate(slug_count=Count("id"))
+            .filter(slug_count__gt=1)
+        )
+
+        total_deleted = 0
+
+        for entry in duplicate_slugs:
+            slug = entry["slug"]
+            duplicates = Opportunity.objects.filter(slug=slug).order_by("id")
+            to_delete_ids = list(duplicates[1:].values_list("id", flat=True))
+            Opportunity.objects.filter(id__in=to_delete_ids).delete()
+            total_deleted += len(to_delete_ids)
+
+        return Response(
+            {"message": f"{total_deleted} duplicate opportunities deleted."},
+            status=status.HTTP_200_OK,
+        )
